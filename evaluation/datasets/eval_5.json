@@ -1,0 +1,7 @@
+[
+  {"question": "How many customers are there?", "gold_sql": "SELECT COUNT(*) FROM customers", "difficulty": "easy"},
+  {"question": "What is the cheapest product?", "gold_sql": "SELECT name, price FROM products ORDER BY price ASC LIMIT 1", "difficulty": "easy"},
+  {"question": "How many products are in each category?", "gold_sql": "SELECT category, COUNT(*) FROM products GROUP BY category", "difficulty": "medium"},
+  {"question": "Show me each customer with their order count", "gold_sql": "SELECT c.name, COUNT(o.order_id) FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.name", "difficulty": "medium"},
+  {"question": "Which customers have NOT placed any orders?", "gold_sql": "SELECT c.name FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id WHERE o.order_id IS NULL", "difficulty": "hard"}
+]

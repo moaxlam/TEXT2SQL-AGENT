@@ -1,0 +1,67 @@
+generate_sql:
+  description: >
+    Given the following database schema and natural language question,
+    generate a correct SQL query.
+
+    SCHEMA:
+    {schema}
+
+    QUESTION: {question}
+
+    Write ONLY the SQL query. No explanation. No markdown.
+    Use the retrieve_schema tool if you need to look up table details.
+  expected_output: >
+    A single SQL query string that answers the question.
+    Must be valid SQL. Must use exact column names from the schema.
+    Must SELECT only the columns the question asks for.
+  agent: sql_generator
+
+validate_sql:
+  description: >
+    Analyze the following SQL query for correctness.
+
+    SCHEMA:
+    {schema}
+
+    QUESTION: {question}
+
+    GENERATED SQL:
+    {generated_sql}
+
+    Check for:
+    1. Correct table and column names from the schema
+    2. Proper JOIN syntax and conditions
+    3. Correct aggregation (GROUP BY, HAVING)
+    4. Proper filtering (WHERE clause)
+    5. Logical correctness — does this answer the question?
+
+    Report your analysis. Do NOT modify the SQL.
+  expected_output: >
+    A diagnostic analysis with:
+    - is_valid: true/false
+    - issues: list of problems found (empty if valid)
+    - confidence: high/medium/low
+  agent: sql_validator
+  context:
+    - generate_sql
+
+repair_sql:
+  description: >
+    The following SQL query failed with an error. Fix it.
+
+    SCHEMA:
+    {schema}
+
+    QUESTION: {question}
+
+    BROKEN SQL:
+    {broken_sql}
+
+    ERROR:
+    {error}
+
+    Fix the SQL query to resolve the error while preserving the original intent.
+    Return ONLY the corrected SQL query.
+  expected_output: >
+    A corrected SQL query string that resolves the error.
+  agent: sql_repair

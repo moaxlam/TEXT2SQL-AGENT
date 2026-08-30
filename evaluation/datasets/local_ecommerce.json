@@ -1,0 +1,152 @@
+[
+  {
+    "question": "How many customers are there?",
+    "gold_sql": "SELECT COUNT(*) FROM customers",
+    "difficulty": "easy"
+  },
+  {
+    "question": "List all product names",
+    "gold_sql": "SELECT name FROM products",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What products cost more than 100?",
+    "gold_sql": "SELECT name, price FROM products WHERE price > 100",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which customers are from New York?",
+    "gold_sql": "SELECT name FROM customers WHERE city = 'New York'",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the cheapest product?",
+    "gold_sql": "SELECT name, price FROM products ORDER BY price ASC LIMIT 1",
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the total revenue from all orders?",
+    "gold_sql": "SELECT SUM(total_amount) FROM orders",
+    "difficulty": "easy"
+  },
+  {
+    "question": "How many products are in the Electronics category?",
+    "gold_sql": "SELECT COUNT(*) FROM products WHERE category = 'Electronics'",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which customers have no email?",
+    "gold_sql": "SELECT name FROM customers WHERE email IS NULL",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which products cost between 50 and 200?",
+    "gold_sql": "SELECT name, price FROM products WHERE price BETWEEN 50 AND 200",
+    "difficulty": "easy"
+  },
+  {
+    "question": "Which products have 'Pro' in the name?",
+    "gold_sql": "SELECT name FROM products WHERE name LIKE '%Pro%'",
+    "difficulty": "easy"
+  },
+  {
+    "question": "List products ordered by price from most to least expensive",
+    "gold_sql": "SELECT name, price FROM products ORDER BY price DESC",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How many products are in each category?",
+    "gold_sql": "SELECT category, COUNT(*) FROM products GROUP BY category",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Show me each customer with their order count",
+    "gold_sql": "SELECT c.name, COUNT(o.order_id) FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.name",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Show me orders placed by Alice Johnson",
+    "gold_sql": "SELECT o.order_id, o.order_date, o.total_amount FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE c.name = 'Alice Johnson'",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the average product price?",
+    "gold_sql": "SELECT AVG(price) FROM products",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which customer has placed the most orders?",
+    "gold_sql": "SELECT c.name, COUNT(o.order_id) as order_count FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.name ORDER BY order_count DESC LIMIT 1",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Show me Electronics products that cost less than 100",
+    "gold_sql": "SELECT name, price FROM products WHERE category = 'Electronics' AND price < 100",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What are the different order statuses?",
+    "gold_sql": "SELECT DISTINCT status FROM orders",
+    "difficulty": "medium"
+  },
+  {
+    "question": "How many reviews has each product received?",
+    "gold_sql": "SELECT p.name, COUNT(r.review_id) FROM products p LEFT JOIN reviews r ON p.product_id = r.product_id GROUP BY p.name",
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is the total spending per customer?",
+    "gold_sql": "SELECT c.name, SUM(o.total_amount) FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.name",
+    "difficulty": "medium"
+  },
+  {
+    "question": "Show me customers who have NOT placed any orders",
+    "gold_sql": "SELECT c.name FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id WHERE o.order_id IS NULL",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which product categories have an average rating above 4.0?",
+    "gold_sql": "SELECT p.category, AVG(r.rating) FROM products p JOIN reviews r ON p.product_id = r.product_id GROUP BY p.category HAVING AVG(r.rating) > 4.0",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Find customers who spent more than the average order amount",
+    "gold_sql": "SELECT c.name FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.name HAVING SUM(o.total_amount) > (SELECT AVG(total_amount) FROM orders)",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Show me each order with customer name and product names",
+    "gold_sql": "SELECT o.order_id, c.name, p.name FROM orders o JOIN customers c ON o.customer_id = c.customer_id JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which product has the highest total revenue from order items?",
+    "gold_sql": "SELECT p.name, SUM(oi.quantity * oi.unit_price) as revenue FROM products p JOIN order_items oi ON p.product_id = oi.product_id GROUP BY p.name ORDER BY revenue DESC LIMIT 1",
+    "difficulty": "hard"
+  },
+  {
+    "question": "How many orders were placed in each month?",
+    "gold_sql": "SELECT strftime('%Y-%m', order_date) as month, COUNT(*) FROM orders GROUP BY month ORDER BY month",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Show me customers who bought Electronics products and rated them 5 stars",
+    "gold_sql": "SELECT DISTINCT c.name FROM customers c JOIN orders o ON c.customer_id = o.customer_id JOIN order_items oi ON o.order_id = oi.order_id JOIN products p ON oi.product_id = p.product_id JOIN reviews r ON p.product_id = r.product_id AND c.customer_id = r.customer_id WHERE p.category = 'Electronics' AND r.rating = 5",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Categorize products by price: cheap if under 50, medium if under 200, expensive otherwise",
+    "gold_sql": "SELECT name, price, CASE WHEN price < 50 THEN 'cheap' WHEN price < 200 THEN 'medium' ELSE 'expensive' END as price_category FROM products",
+    "difficulty": "hard"
+  },
+  {
+    "question": "Which products are above the average price?",
+    "gold_sql": "SELECT name, price FROM products WHERE price > (SELECT AVG(price) FROM products)",
+    "difficulty": "hard"
+  },
+  {
+    "question": "What is the average rating per product category and how many reviews does each have?",
+    "gold_sql": "SELECT p.category, AVG(r.rating) as avg_rating, COUNT(r.review_id) as review_count FROM products p JOIN reviews r ON p.product_id = r.product_id GROUP BY p.category",
+    "difficulty": "hard"
+  }
+]

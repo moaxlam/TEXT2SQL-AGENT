@@ -1,0 +1,16 @@
+[project]
+name = "text-to-sql-agent"
+version = "0.1.0"
+description = "Text-to-SQL system with CrewAI agents, self-repair, and evaluation"
+requires-python = ">=3.10"
+dependencies = [
+    "groq>=0.13.0",
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+    "crewai",
+    "litellm",
+    "gradio",
+]
+
+[dependency-groups]
+dev = []
