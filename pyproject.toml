@@ -2,7 +2,7 @@
 name = "text-to-sql-agent"
 version = "0.1.0"
 description = "Text-to-SQL system with CrewAI agents, self-repair, and evaluation"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.13"
 dependencies = [
     "groq>=0.13.0",
     "openai>=1.0.0",
